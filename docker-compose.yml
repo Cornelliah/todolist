@@ -17,12 +17,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGO_URL=mongodb+srv://horianehkr:.PasswordMgdb@cluster0.iyog0kl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster
+      - MONGO_URL=your_url
       - DB_TYPE=postgres
       - DATABASE_HOST=postgres
       - DATABASE_PORT=5432
       - DATABASE_USERNAME=postgres
-      - DATABASE_PASSWORD="cornellia2004?"
+      - DATABASE_PASSWORD= your_pwd
       - DATABASE_NAME=todolist
 
 
@@ -47,7 +47,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD="cornellia2004?"
+      - POSTGRES_PASSWORD=your_pwd
       - POSTGRES_DB=todolist
     volumes:
      - postgres-data:/var/lib/postgresql/data
