@@ -1,0 +1,73 @@
+
+services:
+  frontend:
+    build: 
+      context: ./todolist_quasar
+    ports:
+      - "8080:80"
+    environment:
+      - URL=http://localhost:3000/tasks
+    depends_on:
+      - backend
+   
+
+  backend:
+    build: 
+      context: ./todo_nest
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb+srv://horianehkr:.PasswordMgdb@cluster0.iyog0kl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster
+      - DB_TYPE=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD="cornellia2004?"
+      - DATABASE_NAME=todolist
+
+
+    depends_on:
+      - mongo
+      - postgres
+    command: sh -c "npm run migration:run && node dist/main"
+
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db  
+
+
+  
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD="cornellia2004?"
+      - POSTGRES_DB=todolist
+    volumes:
+     - postgres-data:/var/lib/postgresql/data
+     - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql 
+    healthcheck:
+     test: ["CMD", "pg_isready", "-U", "postgres", "-d", "todolist"]
+     interval: 10s
+     retries: 5
+     start_period: 30s
+     timeout: 5s
+
+
+volumes:
+  mongo-data:
+  postgres-data:
+
+
+
+
+
+
+
+
